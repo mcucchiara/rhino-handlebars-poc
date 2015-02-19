@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DynamicScopesWithHandlebars {
 
-    public static final int NUM_THREAD = 10;
+    public static final int NUM_THREAD = 100;
 
     private static class MyFactory extends ContextFactory {
         @Override
@@ -95,7 +95,7 @@ public class DynamicScopesWithHandlebars {
         }
 
         public void run() {
-            System.out.printf("Run script %d\n", threadId);
+            long start = System.currentTimeMillis();
             Context cx = Context.enter();
             String fileName = getFileName(threadId);
 
@@ -116,6 +116,8 @@ public class DynamicScopesWithHandlebars {
                 System.err.println("No template file found");
                 System.exit(-1);
             } finally {
+                long end = System.currentTimeMillis() - start;
+                System.out.printf("script %d (%s) executed in %d second\n", threadId, fileName, end);
                 Context.exit();
             }
         }
