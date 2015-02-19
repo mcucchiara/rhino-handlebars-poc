@@ -1,20 +1,20 @@
 <header class="cols-row-header section-header cf">
 
-    <h3 id="rec-title" class="section-header-main">${recHotels}</h3>
+    <h3 id="rec-title" class="section-header-main"></h3>
     <h4 class="section-header-sub">
         {{#if isForBookedFlight}}
-            ${recHotelBookedFlightTitle}
+
         {{else}}
-            ${recHotelTitle}
+
         {{/if}}
     </h4>
     {{#if displayAsAveragePrice}}
-        <span id="rec-disclaimer">${recHDisclaimer}</span>
+        <span id="rec-disclaimer"></span>
     {{else}}
         {{#if isMultiNight}}
-            <span id="rec-disclaimer">${recHDisclaimerTotalRateMultiNight}</span>
+            <span id="rec-disclaimer"></span>
         {{else}}
-            <span id="rec-disclaimer">${recHDisclaimerTotalRateSingleNight}</span>
+            <span id="rec-disclaimer"></span>
         {{/if}}
     {{/if}}
 
