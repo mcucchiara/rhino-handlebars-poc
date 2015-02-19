@@ -1,0 +1,57 @@
+<article class="box col" id="{{id}}" data-rv-type="{{rvType}}"{{#if isRVH}} data-hotelId="{{hotelId}}"{{/if}}{{#if sfid}} sfid="{{sfid}}"{{/if}} >
+    <a title="{{hotelName}}" href="{{localizedPageUrl}}" class="cf">
+
+        <section class="rv-visual {{#if isRV}}isRV{{else}}isRS{{/if}}">
+            {{#if isRV}}
+                <figure class="aspect-ratio4-3 image" data-media-type="image" data-lazy="true" data-downgrade="false" data-src="${mediaServiceDomainName}/{{thumbnail}}" data-alt="missing image alt" data-aspect-ratio="4-3">
+                    <img alt="missing image alt" class="undefined" src="${mediaServiceDomainName}/{{thumbnail}}">
+                    <noscript data-src="${mediaServiceDomainName}/{{thumbnail}}" data-alt="missing image alt" data-aspect-ratio="4-3" data-class="tile-media">
+                        &lt;img src="${mediaServiceDomainName}/{{thumbnail}}" alt="missing image alt" class="tile-media" /&gt;
+                    </noscript>
+          <span class="media-loader">
+              <span class="loader loader-light loader-static" title="Loading..."></span>
+          </span>
+                </figure>
+            {{/if}}
+            {{#if isRS}}
+                <span class="icon icon-{{#if isRSP}}packagesalt{{/if}}{{#if isRSF}}flightsalt{{/if}}{{#if isRSH}}hotelsalt{{/if}}"></span>
+            {{/if}}
+        </section>
+        <section class="rv-trip-info {{#if isRV}}isRV{{else}}isRS{{/if}}" id="{{id}}-rv-trip-info">
+            {{#if isRSF}}
+                <h5 class="trip-info-main" id="{{id}}-trip-info-main" title="{{hotelName}}"><span class="sm-tablet-greater">{{hotelName}}</span><span class="sm-tablet">{{rsfShortName}}</span></h5>
+            {{else}}
+                <h5 class="trip-info-main" id="{{id}}-trip-info-main" title="{{hotelName}}">{{hotelName}}</h5>
+            {{/if}}
+
+            {{#if ab3293viewedHotelStars}}
+                <strong class="star-rating rating-secondary rating secondary" id="{{id}}-rec-hotel-stars">
+                    <span class="icon icon-stars{{starsIcon}} stars-black value-title" title="{{stars}} Star"></span>
+                </strong>
+            {{else}}
+                <span class="trip-info-dates" id="{{id}}-trip-info-dates">{{dates}}</span>
+            {{/if}}
+
+            <span class="trip-info-city" id="{{id}}-trip-info-city">
+                {{#if isRVH}}{{city}}{{else}}{{flightType}}{{/if}}
+            </span>
+      <span class="trip-info-additional" id="{{id}}-trip-info-additional">
+          {{#if isRVP}}{{#if info}}{{info}}{{/if}}{{#unless info}}<span class="icon icon-flights"></span><span>Flight included</span>{{/unless}}{{/if}}
+          {{#if isRSP}}<span>${flightAndHotelIncluded}</span>{{/if}}
+          {{#if isRSH}}<span>{{info}}</span>{{/if}}
+      </span>
+        </section>
+        <button class="rv-remove" data-control="remove" data-target-id="{{id}}" data-topic="remove-rv-box" data-transition="none">
+            <@uitk.icon name="close" content="X" />
+        </button>
+        <section class="rv-price-info" id="{{id}}-rv-price-info">
+            <h5 class="price-info-price{{#if seePrice}} see-price{{/if}}{{#unless seePrice}} has-price{{/unless}}" id="{{id}}-price-info-price">{{price}}</h5>
+            <span class="price-info-additional{{#if origPrice}} package-orig-price{{/if}}" id="{{id}}-price-additional">{{origPrice}}{{additionalPriceInfo}}</span>
+        </section>
+        {{#ifRVPackageDiscountMessageEnabled packageSavings}}
+            <section class="rv-savings-info" id="{{id}}-rv-savings-info">
+                <span>${totalSavings} <span class="savingsAmount">{{packageSavings}}</span></span>
+            </section>
+        {{/ifRVPackageDiscountMessageEnabled}}
+    </a>
+</article>

@@ -1,0 +1,31 @@
+<header class="cols-row-header section-header cf">
+
+    <h3 id="rec-title" class="section-header-main">${recHotels}</h3>
+    <h4 class="section-header-sub">
+        {{#if isForBookedFlight}}
+            ${recHotelBookedFlightTitle}
+        {{else}}
+            ${recHotelTitle}
+        {{/if}}
+    </h4>
+    {{#if displayAsAveragePrice}}
+        <span id="rec-disclaimer">${recHDisclaimer}</span>
+    {{else}}
+        {{#if isMultiNight}}
+            <span id="rec-disclaimer">${recHDisclaimerTotalRateMultiNight}</span>
+        {{else}}
+            <span id="rec-disclaimer">${recHDisclaimerTotalRateSingleNight}</span>
+        {{/if}}
+    {{/if}}
+
+</header>
+
+<div class="content-slider" id="rec-content-slider" data-omniture-prefix="Home.SuggHotel" data-control="content-slider">
+    <section class="content-slider-mask cols-nested">
+        <div class="tile-grid cf">
+            {{#each hotel}}
+                {{>handlebars/recommender/hotel-tile}}
+            {{/each}}
+        </div>
+    </section>
+</div>
