@@ -12,10 +12,11 @@ import org.mozilla.javascript.*;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class DynamicScopesWithHandlebars {
 
-    public static final int NUM_THREAD = 20;
+    public static final int NUM_THREAD = 10;
 
     private static class MyFactory extends ContextFactory {
         @Override
@@ -39,7 +40,7 @@ public class DynamicScopesWithHandlebars {
             runScripts(cx, script, Executors.newSingleThreadExecutor());
 
             int nThreads = Runtime.getRuntime().availableProcessors();
-            System.out.format("Running the script in %d thread", nThreads);
+            System.out.format("Running the script in %d thread\n", nThreads);
 
             runScripts(cx, script, Executors.newFixedThreadPool(nThreads));
 
@@ -60,20 +61,27 @@ public class DynamicScopesWithHandlebars {
 
     private static void runScripts(Context cx, Script script, ExecutorService executor) {
         ScriptableObject sharedScope = cx.initStandardObjects(null, true);
-
         script.exec(cx, sharedScope);
 
-        Runnable[] t = new Runnable[NUM_THREAD];
+        Runnable[] run = new Runnable[NUM_THREAD];
         for (int i = 0; i < NUM_THREAD; i++) {
 
             String source2 = "Handlebars.precompile(template)";
 
-            t[i] = new PerThread(sharedScope, source2, i);
+            run[i] = new PerThread(sharedScope, source2, i);
         }
         for (int i = 0; i < NUM_THREAD; i++) {
-            executor.execute(t[i]);
+            executor.execute(run[i]);
         }
+
         executor.shutdown();
+
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     static class PerThread implements Runnable {
@@ -87,6 +95,7 @@ public class DynamicScopesWithHandlebars {
         }
 
         public void run() {
+            System.out.printf("Run script %d\n", threadId);
             Context cx = Context.enter();
             String fileName = getFileName(threadId);
 
